@@ -1,0 +1,138 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <algorithm>
+#include <stdexcept>
+
+ /// This code will read data from a file and put it into a one dimensional array
+/// I will use functions to effectively edit the values/positions of the array based on user input
+
+/// Using this functions to open the file and take the data to put into an array
+
+int main() {
+
+    const int MAX_SIZE = 150; // Define a maximum size for the array
+    int array[MAX_SIZE];
+    int count = 0; // Counter for the number of integers read
+
+    std::ifstream infile("A1input.txt");
+
+    if (!infile) 
+	{
+        std::cerr << "Error opening file!" << std::endl;
+        return 1;
+
+  }
+
+  int number;
+	int usernum;
+	int usernum2;
+	int pos;
+	int userpos;
+	int userend;
+	
+	/// Have the user enter a number from the list
+
+	std::cout << "Please enter a number in the list" << std::endl;
+	std::cin >> usernum;
+
+    while (infile >> number && count < MAX_SIZE) 
+	{
+        /// Checking to make sure user input is in bounds
+
+        if (number < 0) {
+
+            std::cerr << "Encountered negative number: " << number << std::endl;
+            return 1;
+
+        }
+
+      /// Checking to see if user input in in the list and print the position
+      /// Have the user enter a position and desired value within the array
+
+		if (usernum == number) {
+			 std::cout << "This number is in position: " << count << std::endl;
+			 pos = count;
+			 std::cout << "Please enter a position in the list" << std::endl;
+			 std::cin >> userpos;
+			 std::cout << "Please enter your desired value" << std::endl;
+			 std::cin >> usernum2;
+		}
+        array[count++] = number; // Store number and increment count
+			
+	}
+		 count = 0;
+
+    /// Check to see if the position is in range - if not throw an exception
+    /// Print the old and new value
+
+		 while (count >= 0 && count < MAX_SIZE)
+		 {
+				if (userpos == count)
+				{
+				 std::cout << "The original value at this position was "<< array[count] << std::endl;
+				 array[count] = array[usernum2-1];
+				std::cout << "The new value at this position is " << array[count] << std::endl;
+				break;
+				}
+				else
+		        array[count++] = number; // Store number and increment count
+			
+				if (userpos < 0 || userpos > array[MAX_SIZE])
+					throw std::out_of_range ("Error");
+					return 0;
+			
+				 //std::cout << "The new value at this position is "<< array[usernum2 - 1] << std::endl;
+				 
+		 }
+
+		count = 0;
+		int userposs;
+
+    /// Have the user input an integer to add to the end of the list
+
+		while (count >= 0 && count < MAX_SIZE + 1)
+		{
+			std::cout << "Please enter an integer to add to the end of the array " << std::endl;
+			std::cin >> userend;
+			count = array[MAX_SIZE];
+			std::cout << "Your integer " << userend << " is now in position " << array[count] << std::endl;
+			break;
+		}
+		
+		count = 0;
+		int i;
+
+      /// Have the user put a position from the list that they would like to remove
+      /// If the position is not in the array, throw an exception
+
+			std:: cout << "Please enter a position in the array " << std::endl;
+			std:: cin >> userposs;
+			
+		while (count >= 0 && count < MAX_SIZE + 1)
+		{
+		if (userposs > 0 && userposs < array[MAX_SIZE])
+			throw std:: cout << "Error" << std::endl;
+		else
+		{
+				for (i >= 0; i < array[MAX_SIZE]; i++)
+				{
+				 if (array[userposs] == array[i])
+				 {
+					array[i+1] = array[i];
+				 }
+				 else
+				 {
+				 array[i++] = array[i];
+				 std::cout << array[i] << std::endl;
+				 }
+				}
+		}
+				//break;
+		}
+
+    /// Close file
+
+    infile.close();
+
+    return 0;
